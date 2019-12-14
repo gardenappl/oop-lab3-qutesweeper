@@ -18,6 +18,9 @@ add_executable(oop-lab3-minesweeper
   gamewindow.cpp
   gamewindow.hpp
   gamewindow.ui
+  resources.qrc
+  gamestate.cpp
+  gamestate.hpp
 )
 
 target_link_libraries(oop-lab3-minesweeper PRIVATE Qt5::Widgets)
