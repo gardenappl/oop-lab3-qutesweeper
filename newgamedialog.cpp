@@ -40,6 +40,7 @@ NewGameDialog::NewGameDialog(int width, int height, int mineCount, QWidget *pare
     connect(buttonBox, &QDialogButtonBox::accepted, this, &QDialog::accept);
     connect(buttonBox, &QDialogButtonBox::rejected, this, &QDialog::reject);
     std::cout << "Dialog created" << std::endl;
+    this->setWindowTitle(tr("Start New Game"));
 }
 
 void NewGameDialog::getOptions(int &x, int &y, int &mineCount)

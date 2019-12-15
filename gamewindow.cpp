@@ -20,6 +20,8 @@ GameWindow::GameWindow(QWidget *parent)
     connect(ui->actionStart_New_Game, &QAction::triggered, this, &GameWindow::newGameStart);
     connect(ui->actionDo_one_move, &QAction::triggered, this, &GameWindow::requestAIMove);
 
+    setWindowTitle(tr("Qutesweeper"));
+
     init();
 }
 
