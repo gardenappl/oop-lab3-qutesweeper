@@ -2,6 +2,7 @@
 #define GAMEWINDOW_HPP
 
 #include "gamestate.hpp"
+#include "rightclickablebutton.hpp"
 
 #include <QBoxLayout>
 #include <QFrame>
@@ -20,11 +21,51 @@ public:
     GameWindow(QWidget *parent = nullptr);
     ~GameWindow();
 
+
+    /*!
+     * \brief Prompt the player to enter a field size and difficulty and (re-)start the game.
+     * \param restart set to true if you wish to keep the current field size and difficulty
+     */
+    void newGameStart(bool restart = false);
+
+private slots:
+    /*!
+     * \brief Should get called after left-clicking on a tile button.
+     * \param x button's x coordinate
+     * \param y button's y coordinate
+     */
+    void onLeftClick(int x, int y);
+
+    /*!
+     * \brief Should get called after right-clicking on a tile button.
+     * \param x button's x coordinate
+     * \param y button's y coordinate
+     */
+    void onRightClick(int x, int y);
+
+private:
+    /*!
+     * \brief The current state of the game
+     */
+    GameState* currentState = nullptr;
+
+    Ui::GameWindow *ui;
+    QWidget* mainWidget;
+    QBoxLayout* playAreaLayout;
+    QFrame* playArea;
+    RightClickableButton** buttonsArray; //a static array because I don't want to invalidate pointers via std::vector
+
+
     /*!
      * \brief This must be called before any gameplay can happen.
      * Initializes the GameState, creates buttons for each Qutesweeper cell and arranges them in the UI, etc.
      */
     void init();
+
+    /*!
+     * \brief Clean up memory before starting a new game (or when quitting the program).
+     */
+    void uninit();
 
 
     /*!
@@ -34,33 +75,19 @@ public:
      */
     void populateGrid(int startX, int startY);
 
+    /*!
+     * \brief Uncover a tile wihout a mine, if the tile has 0 mine neighbours, will keep uncovering tiles recursively.
+     * \param x the x-coordinate of a tile without a mine
+     * \param y the y-coordinate of a tile without a mine
+     */
+    void popTileSafe(MineTile& tile, int x, int y);
 
     /*!
      * \brief Get a pointer to a button at the given coordinates
      * \param x x coordinate
      * \param y y coordinate
-     * \return a pointer to the associated QPushButton
+     * \return a pointer to the associated RightClickableButton
      */
-    QPushButton*& getButton(int x, int y);
-
-private slots:
-    /*!
-     * \brief Should get called after left-clicking on a tile button.
-     * \param x button's x coordinate
-     * \param y button's y coordinate
-     */
-    void onClick(int x, int y);
-
-private:
-    /*!
-     * \brief The current state of the game
-     */
-    GameState currentState;
-
-    Ui::GameWindow *ui;
-    QWidget* mainWidget;
-    QBoxLayout* playAreaLayout;
-    QFrame* playArea;
-    QPushButton** buttonsArray; //a static array because I don't want to invalidate pointers via std::vector
+    RightClickableButton*& getButton(int x, int y);
 };
 #endif // GAMEWINDOW_HPP

@@ -55,9 +55,9 @@ public:
     int mineCount;
 
     /*!
-     * \brief How many mines have been flagged
+     * \brief How many mines have been uncovered
      */
-    int flaggedCount = 0;
+    int uncoveredCount = 0;
 
     /*!
      * \brief Whether or not the game has been started (that is, the grid is populated, the timer is running, etc.)
