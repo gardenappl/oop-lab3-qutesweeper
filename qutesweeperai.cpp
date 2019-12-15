@@ -284,8 +284,11 @@ void QutesweeperAI::tankAlgorithm
         std::cout << "one segment, size: " << boundarySegments[0].size() << std::endl;
     }
 
+    //Get tile with the least likelihood of having a mine
 
-    std::map<std::pair<int, int>, float> mineLikelihood;
+    double leastLikelihood = 1000.f;
+    int leastLikelihoodX = -1;
+    int leastLikelihoodY = -1;
 
     for(const auto& segment : boundarySegments)
     {
@@ -298,18 +301,24 @@ void QutesweeperAI::tankAlgorithm
         countMineCombinations(segment, mineCount, combinationCount);
         for(size_t i = 0; i < segment.size(); i++)
         {
-            mineLikelihood[segment[i]] = mineCount[i] / combinationCount;
-            if(mineLikelihood[segment[i]] == 0.f)
+            if(mineCount[i] == 0)
             {
                 window->onLeftClick(segment[i].first, segment[i].second);
                 if(singleStep)
                     return;
             }
+            else if((double)mineCount[i] / combinationCount < leastLikelihood)
+            {
+                leastLikelihood = (double)mineCount[i] / combinationCount;
+                std::cout << "Likelihood at " << segment[i].first << " " << segment[i].second << ": "
+                          << leastLikelihood << std::endl;
+                leastLikelihoodX = segment[i].first;
+                leastLikelihoodY = segment[i].second;
+            }
         }
     }
 
-    //Clicking on the tile that's least likely to have a mine
-
+    window->onLeftClick(leastLikelihoodX, leastLikelihoodY);
 }
 
 std::vector<std::vector<std::pair<int, int>>> QutesweeperAI::splitBoundarySegments(bool* isBoundary)

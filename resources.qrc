@@ -2,5 +2,6 @@
 <RCC version="1.0">
 <qresource>
 	<file>resources/flag.png</file>
+	<file>resources/warning.svg</file>
 </qresource>
 </RCC>

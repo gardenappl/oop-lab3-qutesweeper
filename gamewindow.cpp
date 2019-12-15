@@ -143,6 +143,10 @@ void GameWindow::onLeftClick(int i, int j)
     MineTile& tile = currentState->getTile(i, j);
     if(tile.isMine())
     {
+        getButton(i, j)->setDisabled(true);
+        getButton(i, j)->setFlat(true);
+        getButton(i, j)->setIcon(QIcon(":/resources/warning.svg"));
+
         QMessageBox msgBox;
         msgBox.setText(tr("Game over!"));
         msgBox.setInformativeText(tr("Would you like to try again?"));
