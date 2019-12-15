@@ -21,9 +21,19 @@ public:
     ~GameWindow();
 
     /*!
-     * \brief Create buttons for each Qutesweeper cell and arrange them in the UI.
+     * \brief This must be called before any gameplay can happen.
+     * Initializes the GameState, creates buttons for each Qutesweeper cell and arranges them in the UI, etc.
      */
-    void populateButtons();
+    void init();
+
+
+    /*!
+     * \brief Populates the grid with mines, calcaultes neighbour counts.
+     * \param startX the x coordinate of the starting tile (guaranteed to not have a mine).
+     * \param startY the y coordinate of the starting tile (guaranteed to not have a mine).
+     */
+    void populateGrid(int startX, int startY);
+
 
     /*!
      * \brief Get a pointer to a button at the given coordinates
@@ -32,6 +42,14 @@ public:
      * \return a pointer to the associated QPushButton
      */
     QPushButton*& getButton(int x, int y);
+
+private slots:
+    /*!
+     * \brief Should get called after left-clicking on a tile button.
+     * \param x button's x coordinate
+     * \param y button's y coordinate
+     */
+    void onClick(int x, int y);
 
 private:
     /*!
