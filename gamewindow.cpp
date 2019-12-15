@@ -18,6 +18,7 @@ GameWindow::GameWindow(QWidget *parent)
     setCentralWidget(mainWidget);
 
     connect(ui->actionStart_New_Game, &QAction::triggered, this, &GameWindow::newGameStart);
+    connect(ui->actionDo_one_move, &QAction::triggered, this, &GameWindow::requestAIMove);
 
     init();
 }
@@ -71,6 +72,8 @@ void GameWindow::uninit()
     delete playArea;
     delete playAreaLayout;
     delete currentState;
+    delete ai;
+    ai = nullptr;
     currentState = nullptr;
 }
 
@@ -215,6 +218,13 @@ void GameWindow::popTileSafe(MineTile& tile, int x, int y)
             }
         }
     }
+}
+
+void GameWindow::requestAIMove()
+{
+    if(ai == nullptr)
+        ai = new QutesweeperAI(currentState);
+    ai->doMove(this);
 }
 
 GameWindow::~GameWindow()

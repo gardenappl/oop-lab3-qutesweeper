@@ -25,6 +25,9 @@ add_executable(oop-lab3-minesweeper
   rightclickablebutton.hpp
   newgamedialog.cpp
   newgamedialog.hpp
+  qutesweeperai.cpp
+  qutesweeperai.hpp
+  gamewindow.fwd.hpp
 )
 
 target_link_libraries(oop-lab3-minesweeper PRIVATE Qt5::Widgets)

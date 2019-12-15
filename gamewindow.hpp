@@ -1,7 +1,10 @@
 #ifndef GAMEWINDOW_HPP
 #define GAMEWINDOW_HPP
 
+#include "gamewindow.fwd.hpp"
+
 #include "gamestate.hpp"
+#include "qutesweeperai.hpp"
 #include "rightclickablebutton.hpp"
 
 #include <QBoxLayout>
@@ -28,7 +31,14 @@ public:
      */
     void newGameStart(bool restart = false);
 
-private slots:
+    /*!
+     * \brief Uncover a tile wihout a mine, if the tile has 0 mine neighbours, will keep uncovering tiles recursively.
+     * \param x the x-coordinate of a tile without a mine
+     * \param y the y-coordinate of a tile without a mine
+     */
+    void popTileSafe(MineTile& tile, int x, int y);
+
+public slots:
     /*!
      * \brief Should get called after left-clicking on a tile button.
      * \param x button's x coordinate
@@ -55,6 +65,16 @@ private:
     QFrame* playArea;
     RightClickableButton** buttonsArray; //a static array because I don't want to invalidate pointers via std::vector
 
+    /*!
+     * An instance of QutesweeperAI. Because this takes a lot of memory, it's not initialized until
+     * the player asks for it.
+     */
+    QutesweeperAI* ai = nullptr;
+
+    /*!
+     * \brief Gets called when the player requests an AI move.
+     */
+    void requestAIMove();
 
     /*!
      * \brief This must be called before any gameplay can happen.
@@ -75,12 +95,6 @@ private:
      */
     void populateGrid(int startX, int startY);
 
-    /*!
-     * \brief Uncover a tile wihout a mine, if the tile has 0 mine neighbours, will keep uncovering tiles recursively.
-     * \param x the x-coordinate of a tile without a mine
-     * \param y the y-coordinate of a tile without a mine
-     */
-    void popTileSafe(MineTile& tile, int x, int y);
 
     /*!
      * \brief Get a pointer to a button at the given coordinates

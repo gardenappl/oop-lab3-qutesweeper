@@ -1,5 +1,4 @@
 #include "newgamedialog.hpp"
-#include "ui_newgamedialog.h"
 
 #include <iostream>
 
