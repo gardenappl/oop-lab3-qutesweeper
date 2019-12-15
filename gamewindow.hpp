@@ -3,7 +3,8 @@
 
 #include "gamestate.hpp"
 
-#include <QGridLayout>
+#include <QBoxLayout>
+#include <QFrame>
 #include <QMainWindow>
 #include <QPushButton>
 
@@ -30,7 +31,7 @@ public:
      * \param y y coordinate
      * \return a pointer to the associated QPushButton
      */
-    QPushButton* getButton(int x, int y);
+    QPushButton*& getButton(int x, int y);
 
 private:
     /*!
@@ -39,7 +40,9 @@ private:
     GameState currentState;
 
     Ui::GameWindow *ui;
-    QGridLayout buttonsLayout;
-    QPushButton* buttonsArray; //a static array because I don't want to invalidate pointers via std::vector
+    QWidget* mainWidget;
+    QBoxLayout* playAreaLayout;
+    QFrame* playArea;
+    QPushButton** buttonsArray; //a static array because I don't want to invalidate pointers via std::vector
 };
 #endif // GAMEWINDOW_HPP
